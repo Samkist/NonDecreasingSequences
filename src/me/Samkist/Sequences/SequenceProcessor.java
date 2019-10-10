@@ -4,8 +4,8 @@ public class SequenceProcessor {
     private String rawString;
     private int[] parsedNumbers;
     private SequenceGUI gui;
-    private int[] sequenceLengths;
-    private int longestSequenceLength;
+    private int[][] sequences;
+
 
     public SequenceProcessor(String str, SequenceGUI gui) {
         rawString = str;
@@ -13,15 +13,50 @@ public class SequenceProcessor {
         calculateSequence();
     }
 
-    public int getLongestSequenceLength() {
-        int previousValue = sequenceLengths[0];
-        int highestValue = 0;
-        for(int num : sequenceLengths) {
-            if(num >= previousValue)
-                highestValue = num;
-        }
+    private void populateSequences() {
+        int sequenceIndex = 0;
+        int currentSeqLength = 0;
 
-        return highestValue;
+        int last = parsedNumbers[0];
+
+        for(int num : parsedNumbers) {
+            if(num >= last) {
+                currentSeqLength++;
+
+                if(num == parsedNumbers[parsedNumbers.length -1]) {
+                    int[] temp = new int[currentSeqLength];
+                    int endingIndex = 0;
+                    for(int i = 0; i < parsedNumbers.length; i++) {
+                        if(num == parsedNumbers[i])
+                            endingIndex = i;
+                    }
+                    int x = 0;
+                    for(int i = endingIndex - currentSeqLength+1; i < endingIndex+1; i++) {
+                        temp[x] = parsedNumbers[i];
+                        x++;
+                    }
+                    sequences[sequenceIndex] = temp;
+                }
+            } else if(num < last) {
+                int[] temp = new int[currentSeqLength];
+                int endingIndex = 0;
+                for(int i = 0; i < parsedNumbers.length; i++) {
+                    if(num == parsedNumbers[i])
+                        endingIndex = i;
+                }
+                int x = 0;
+                for(int i = endingIndex - currentSeqLength; i < endingIndex; i++) {
+                    temp[x] = parsedNumbers[i];
+                    x++;
+                }
+                sequences[sequenceIndex] = temp;
+                currentSeqLength = 0;
+                sequenceIndex++;
+                
+            }
+
+            last = num;
+        }
     }
 
     private void calculateSequence() {
@@ -29,35 +64,9 @@ public class SequenceProcessor {
 
         if(parsedNumbers != null) {
             System.out.println(getNumSequences());
-            sequenceLengths = new int[getNumSequences()];
-            sequenceLengths = getSequenceLengths();
-            longestSequenceLength = getLongestSequenceLength();
-            int i = 0;
-            for(int num : sequenceLengths) {
-                System.out.println("Sequence " + i + ": " + num);
-                i++;
-            }
-            System.out.println("Longest Sequence Length: " + longestSequenceLength);
+            sequences = new int[getNumSequences()][];
         }
     }
-
-    private int[] getSequenceLengths() {
-        int[] localArr = sequenceLengths;
-        int i = 0;
-        int currentSequenceLength = 0;
-        int[] localNumbers = parsedNumbers;
-        int previousValue = localNumbers[0];
-        for(int num : parsedNumbers) {
-            if(num >= previousValue) {
-                currentSequenceLength++;
-            } else {
-                localArr[i] = currentSequenceLength;
-                i++;
-            }
-        }
-        return localArr;
-    }
-
     private int getNumSequences() {
         int sequences = 1;
         int currentSequenceLength = 0;
