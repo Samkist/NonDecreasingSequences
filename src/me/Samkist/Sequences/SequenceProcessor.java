@@ -14,7 +14,7 @@ public class SequenceProcessor {
         populateSequences();
         for(int[] seq : sequences) {
             for(int num : seq) {
-                System.out.print(num);
+                System.out.print(num + " ");
             }
             System.out.println();
         }
@@ -23,43 +23,40 @@ public class SequenceProcessor {
     private void populateSequences() {
         int sequenceIndex = 0;
         int currentSeqLength = 0;
+        boolean endOfSeq = false;
 
         int last = parsedNumbers[0];
         for(int y = 0; y < parsedNumbers.length; y++) {
-            System.out.println("Parsed number length is " + parsedNumbers.length);
-            System.out.println("Starting " + y + " iteration of loop");
             if(parsedNumbers[y] >= last) {
                 currentSeqLength++;
-                System.out.println(parsedNumbers[y] + " is bigger than " + last);
-                if(parsedNumbers[y] == parsedNumbers[parsedNumbers.length -1]) {
-                    System.out.println(parsedNumbers[y] + " is the last number in the array");
+                if(y == parsedNumbers.length -1) {
                     int[] temp = new int[currentSeqLength];
                     int x = 0;
-                    for(int i = y - currentSeqLength+1; i < y+1; i++) {
-                        System.out.println(parsedNumbers[i] + " is being added to the temporary sequence");
+                    for(int i = y - currentSeqLength; i <= y; i++) {
                         temp[x] = parsedNumbers[i];
                         x++;
                     }
-                    sequences[sequenceIndex] = temp;
+                    sequences[sequenceIndex-1] = temp;
+                    System.out.println("Working?");
                 }
             } else if(parsedNumbers[y] < last) {
-                System.out.println(parsedNumbers[y] + " was less than " + last);
                 int[] temp = new int[currentSeqLength];
                 int x = 0;
                 for(int i = y - currentSeqLength; i < y; i++) {
-                    System.out.println(parsedNumbers[i] + " is being added to the temporary sequence");
                     temp[x] = parsedNumbers[i];
                     x++;
                 }
-
-                System.out.println("SQ Array Length: "  + sequences.length);
-                System.out.println("SQ Index: " + sequenceIndex);
                 if(sequenceIndex < sequences.length)
                     sequences[sequenceIndex] = temp;
                 currentSeqLength = 0;
                 sequenceIndex++;
-                y--;
+                endOfSeq = true;
             }
+            /*if(endOfSeq) {
+                last = parsedNumbers[y-1];
+            } else {
+                last = parsedNumbers[y];
+            }*/
 
             last = parsedNumbers[y];
         }
