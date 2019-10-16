@@ -24,6 +24,7 @@ public class SequenceProcessor {
         int sequenceIndex = 0;
         int currentSeqLength = 0;
         boolean endOfSeq = false;
+        boolean notEnd = true;
 
         int last = parsedNumbers[0];
         for(int y = 0; y < parsedNumbers.length; y++) {
@@ -32,33 +33,30 @@ public class SequenceProcessor {
                 if(y == parsedNumbers.length -1) {
                     int[] temp = new int[currentSeqLength];
                     int x = 0;
-                    for(int i = y - currentSeqLength; i <= y; i++) {
+                    for(int i = y - currentSeqLength +1; i <= y; i++) {
                         temp[x] = parsedNumbers[i];
                         x++;
                     }
-                    sequences[sequenceIndex-1] = temp;
+                    sequences[sequenceIndex] = temp;
                     System.out.println("Working?");
                 }
             } else if(parsedNumbers[y] < last) {
                 int[] temp = new int[currentSeqLength];
                 int x = 0;
-                for(int i = y - currentSeqLength; i < y; i++) {
+                for(int i = y - currentSeqLength ; i < y; i++) {
                     temp[x] = parsedNumbers[i];
                     x++;
                 }
                 if(sequenceIndex < sequences.length)
                     sequences[sequenceIndex] = temp;
                 currentSeqLength = 0;
-                sequenceIndex++;
                 endOfSeq = true;
             }
-            /*if(endOfSeq) {
+            if(endOfSeq) {
                 last = parsedNumbers[y-1];
             } else {
                 last = parsedNumbers[y];
-            }*/
-
-            last = parsedNumbers[y];
+            }
         }
     }
 
