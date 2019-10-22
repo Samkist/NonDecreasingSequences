@@ -14,11 +14,16 @@ public class SequenceGUI extends GBFrame {
     private JButton inputButton = addButton("Input", 2, 1, 1, 1);
     private JButton resetButton = addButton("Reset", 2, 2, 1,1);
     private JButton exitButton = addButton("Exit", 3, 1, 2, 1);
+    private JTextField outputField = addTextField("", 6,1,2,3);
 
     public static void main(String[] args) {
         frame.setSize(400, 400);
         frame.setTitle("Non-Decreasing Sequences");
         frame.setVisible(true);
+    }
+
+    public JTextField getOutputField() {
+        return outputField;
     }
 
     public void buttonClicked(JButton jButton) {

@@ -12,19 +12,33 @@ public class SequenceProcessor {
         this.gui = gui;
         calculateSequence();
         populateSequences();
-        for(int[] seq : sequences) {
-            for(int num : seq) {
-                System.out.print(num + " ");
-            }
-            System.out.println();
+        int[] last = sequences[0];
+        String string = "";
+        for(int i = 0; i < sequences[0].length; i++) {
+            string += sequences[0][i] + " ";
         }
+        for(int i = 1; i < sequences.length; i++) {
+            if(sequences[i].length > last.length) {
+                string = "";
+                for(int j = 0; j < sequences[i].length; j++) {
+                    string += sequences[i][j] + " ";
+                }
+            } else if(sequences[i].length == last.length) {
+                string += " : ";
+                for(int j = 0; j < sequences[i].length; j++) {
+                    string += sequences[i][j] + " ";
+                }
+            }
+            last = sequences[i];
+        }
+        gui.getOutputField().setText(string);
     }
 
     private void populateSequences() {
-        int sequenceIndex = 0;
+/*        int sequenceIndex = 0;
         int currentSeqLength = 0;
         boolean endOfSeq = false;
-        boolean notEnd = true;
+        int a = 0;
 
         int last = parsedNumbers[0];
         for(int y = 0; y < parsedNumbers.length; y++) {
@@ -50,13 +64,49 @@ public class SequenceProcessor {
                 if(sequenceIndex < sequences.length)
                     sequences[sequenceIndex] = temp;
                 currentSeqLength = 0;
-                endOfSeq = true;
+                if(a % 2 == 0) {
+                    endOfSeq = true;
+                    a++;
+                }
             }
             if(endOfSeq) {
                 last = parsedNumbers[y-1];
+                endOfSeq = false;
+                a++;
             } else {
                 last = parsedNumbers[y];
             }
+        }*/
+        int last = parsedNumbers[0];
+        //Length of current sequence
+        int seqLength = 1;
+        int sequenceIndex = 0;
+        for(int i = 1; i < parsedNumbers.length; i++) {
+            if(parsedNumbers[i] >= last){
+                seqLength++;
+                if(i == parsedNumbers.length -1) {
+                    int[] temp = new int[seqLength];
+                    int x = 0;
+                    for(int j = i - seqLength+2; j <= i+1; j++) {
+                        temp[x] = parsedNumbers[j-1];
+                        x++;
+                    }
+                    sequences[sequenceIndex] = temp;
+                    sequenceIndex++;
+                }
+            } else if(seqLength > 1) {
+                int[] temp = new int[seqLength];
+                int x = 0;
+                for(int j = i - seqLength+1; j <= i; j++) {
+                    temp[x] = parsedNumbers[j-1];
+                    x++;
+                }
+                sequences[sequenceIndex] = temp;
+                seqLength = 0;
+                sequenceIndex++;
+                i-= 2;
+            }
+            last = parsedNumbers[i];
         }
     }
 
@@ -64,7 +114,6 @@ public class SequenceProcessor {
         parsedNumbers = initialParse();
 
         if(parsedNumbers != null) {
-            System.out.println(getNumSequences());
             sequences = new int[getNumSequences()][];
         }
     }
