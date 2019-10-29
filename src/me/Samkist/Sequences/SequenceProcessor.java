@@ -13,17 +13,19 @@ public class SequenceProcessor {
         calculateSequence();
         populateSequences();
         int[] last = sequences[0];
+        int longest = sequences[0].length;
         String string = "";
         for(int i = 0; i < sequences[0].length; i++) {
             string += sequences[0][i] + " ";
         }
         for(int i = 1; i < sequences.length; i++) {
-            if(sequences[i].length > last.length) {
+            if(sequences[i].length > last.length && sequences[i].length > longest) {
                 string = "";
+                longest = sequences[i].length;
                 for(int j = 0; j < sequences[i].length; j++) {
                     string += sequences[i][j] + " ";
                 }
-            } else if(sequences[i].length == last.length) {
+            } else if(sequences[i].length == last.length && sequences[i].length == longest) {
                 string += " : ";
                 for(int j = 0; j < sequences[i].length; j++) {
                     string += sequences[i][j] + " ";
@@ -35,54 +37,12 @@ public class SequenceProcessor {
     }
 
     private void populateSequences() {
-/*        int sequenceIndex = 0;
-        int currentSeqLength = 0;
-        boolean endOfSeq = false;
-        int a = 0;
-
-        int last = parsedNumbers[0];
-        for(int y = 0; y < parsedNumbers.length; y++) {
-            if(parsedNumbers[y] >= last) {
-                currentSeqLength++;
-                if(y == parsedNumbers.length -1) {
-                    int[] temp = new int[currentSeqLength];
-                    int x = 0;
-                    for(int i = y - currentSeqLength +1; i <= y; i++) {
-                        temp[x] = parsedNumbers[i];
-                        x++;
-                    }
-                    sequences[sequenceIndex] = temp;
-                    System.out.println("Working?");
-                }
-            } else if(parsedNumbers[y] < last) {
-                int[] temp = new int[currentSeqLength];
-                int x = 0;
-                for(int i = y - currentSeqLength ; i < y; i++) {
-                    temp[x] = parsedNumbers[i];
-                    x++;
-                }
-                if(sequenceIndex < sequences.length)
-                    sequences[sequenceIndex] = temp;
-                currentSeqLength = 0;
-                if(a % 2 == 0) {
-                    endOfSeq = true;
-                    a++;
-                }
-            }
-            if(endOfSeq) {
-                last = parsedNumbers[y-1];
-                endOfSeq = false;
-                a++;
-            } else {
-                last = parsedNumbers[y];
-            }
-        }*/
         int last = parsedNumbers[0];
         //Length of current sequence
         int seqLength = 1;
         int sequenceIndex = 0;
         for(int i = 1; i < parsedNumbers.length; i++) {
-            if(parsedNumbers[i] >= last){
+            if(parsedNumbers[i] >= last) {
                 seqLength++;
                 if(i == parsedNumbers.length -1) {
                     int[] temp = new int[seqLength];

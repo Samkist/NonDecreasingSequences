@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="NonDecreasingSequences:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/NonDecreasingSequences_jar</output-path>
+    <root id="archive" name="NonDecreasingSequences.jar">
+      <element id="module-output" name="NonDecreasingSequences" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/BreezySwing.jar" path-in-jar="/" />
+      <element id="library" level="project" name="BreezySwing" />
+    </root>
+  </artifact>
+</component>
